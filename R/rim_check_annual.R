@@ -111,6 +111,8 @@ rim_check_annual <- function(samples_imported) {
 
     err$ship_without_cod_sgpm <- ship_without_cod_sgpm(catches)
 
+    err$coherence_fishing_modality_rim_stratum <- coherence_fishing_modality_rim_stratum(catches)
+
     # This errors must be used only in anual, when the Fishing Ground and DCF
     # Metier is filled:
     # err$coherence_dcf_fishing_ground_rim_stratum_origin <- coherence_dcf_fishing_ground_rim_stratum_origin(catches)

@@ -8,16 +8,18 @@
 #' @note Check code: 1060
 validate_cod_id <- function(lengths) {
   if (variable_exists_in_df("COD_ID", lengths)) {
-    errors <- lengths[is.na(lengths[["COD_ID"]]), ]
+    err <- lengths[is.na(lengths[["COD_ID"]]), ]
 
-    errors <- errors[, BASE_FIELDS]
+    err <- err[, BASE_FIELDS]
 
-    errors <- add_type_of_error(
-      errors,
-      "ERROR: variable COD_ID vacía. Este error solo puede ser resuelto por los servicios informáticos de Madrid."
-    )
+    if (nrow(err) > 0) {
+      err <- add_type_of_error(
+        err,
+        "ERROR: variable COD_ID vacía. Este error solo puede ser resuelto por los servicios informáticos de Madrid."
+      )
+    }
 
-    return(errors)
+    return(err)
   } else {
     return(FALSE)
   }

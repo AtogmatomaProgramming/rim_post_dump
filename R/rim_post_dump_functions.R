@@ -219,3 +219,6 @@ source(file.path(getwd(), "R", "errors_functions", "1091_sampling_is_checked.R")
 
 # Check code 1092
 source(file.path(getwd(), "R", "errors_functions", "1092_variable_not_in_master.R"))
+
+# Check code 1093
+source(file.path(getwd(), "R", "errors_functions", "1093_coherence_fishing_modality_rim_stratum.R"))

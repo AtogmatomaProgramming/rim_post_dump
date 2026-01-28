@@ -14,9 +14,10 @@ variable_not_filled <- function(df, var) {
 
       err <- unique(err)
 
-      err <- add_type_of_error(err, "ERROR: campo ", substitute(var), " vacío.")
-
-      return(err)
+      if (nrow(err) > 0) {
+        err <- add_type_of_error(err, "ERROR: campo ", substitute(var), " vacío.")
+        return(err)
+      }
     },
     error = function(e) {
       print(e)

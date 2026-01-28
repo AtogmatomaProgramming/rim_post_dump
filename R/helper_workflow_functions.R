@@ -41,11 +41,15 @@ add_type_of_error <- function(df, ...) {
 #' @return List of formatted error dataframes, optionally separated by influence area
 #' @details Combines all dataframes, orders columns, separates by influence area, and removes empty columns
 format_errors_list <- function(errors_list = ERRORS, separate_by_ia = TRUE) {
-  # Combine all the dataframes of ERRORS list:
+  if (length(errors_list)==0) {
+    message("There are no errors.")
+    return(invisible(NULL))
+  }
+
+    # Combine all the dataframes of ERRORS list:
   # Reduce uses a binary function to successively combine the elements of a
   # given vector. In this case, merge the dataframes in the ERRORS list
   # errors <- Reduce(function(x, y) merge(x, y, all=TRUE), errors_list)
-
   # better with full_join because doesn't change the order of columns:
   errors <- Reduce(function(x, y) dplyr::full_join(x, y), errors_list)
 
@@ -284,7 +288,7 @@ copy_files_to_folder <- function(path_files_from, path_files_to) {
 
       # if the share errors folder does not exists, create it, with its subfolders
       folders <- list.dirs(path_files_from,
-        recursive = FALSE,
+        recursive = TRUE,
         full.names = FALSE
       )
 

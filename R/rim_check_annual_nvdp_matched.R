@@ -100,6 +100,8 @@ rim_check_annual_nvdp_matched <- function(samples_imported) {
     # err$checkSampleInCharge <- variable_not_filled(catches, "RESPONSABLE_MUESTREO")
     #
     # err$ship_without_cod_sgpm <- ship_without_cod_sgpm(catches)
+    #
+    # err$coherence_fishing_modality_rim_stratum <- coherence_fishing_modality_rim_stratum(catches)
 
     # This errors must be used only in annual, when the Fishing Ground and DCF
     # Metier is filled:
