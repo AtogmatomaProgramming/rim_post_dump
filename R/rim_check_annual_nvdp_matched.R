@@ -50,9 +50,9 @@ rim_check_annual_nvdp_matched <- function(samples_imported) {
     #
     # err$errors_mt2b_rim_stratum <- validate_mt2b_rim_stratum(catches)
     #
-    # err$coherence_estrato_rim_gear <- coherence_rim_stratum_gear(catches, "RIM")
+    err$coherence_estrato_rim_gear <- coherence_rim_stratum_gear(catches, "RIM")
     #
-    # err$coherence_estrato_rim_origin <- coherence_rim_stratum_origin(catches, "RIM")
+    err$coherence_estrato_rim_gear <- coherence_rim_stratum_origin(catches, "RIM")
     #
     # err$coherence_rim_mt2_prescriptions <- coherence_rim_mt2_prescriptions_post(catches)
     #
@@ -100,8 +100,8 @@ rim_check_annual_nvdp_matched <- function(samples_imported) {
     # err$checkSampleInCharge <- variable_not_filled(catches, "RESPONSABLE_MUESTREO")
     #
     # err$ship_without_cod_sgpm <- ship_without_cod_sgpm(catches)
-    #
-    # err$coherence_fishing_modality_rim_stratum <- coherence_fishing_modality_rim_stratum(catches)
+    
+    err$coherence_fishing_modality_rim_stratum <- coherence_fishing_modality_rim_stratum(catches)
 
     # This errors must be used only in annual, when the Fishing Ground and DCF
     # Metier is filled:
@@ -206,7 +206,7 @@ rim_check_annual_nvdp_matched <- function(samples_imported) {
     # err$cod_id_filled_catches <- validate_cod_id(catches)
     # err$cod_id_filled_catches_in_lengths <- validate_cod_id(catches_in_lengths)
     # err$cod_id_filled_lengths <- validate_cod_id(lengths_sampled)
-    
+
     # ---- CHEQUEADO ----
     # This check is useful in the annual review if any trip was
     # not checked during the year
