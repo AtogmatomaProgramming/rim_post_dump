@@ -1,48 +1,39 @@
-#' Function to check the coherence between the fishing ship's ESTRATO_RIM and its census modality 
-#' with the master
-#' in the work data
-#' @param catches Data frame with catches data from sapmuebase::importRIMCatches()
-#' @return Data frame with those ships and its ESTRATO_RIM do no match with the master
-
-
+#' Check Coherence Between Fishing Modality and RIM Stratum
+#'
+#' Verifies that vessel fishing modality matches the expected RIM stratum
+#' according to the fishing ground census master data.
+#'
+#' @param catches Data frame with catches data from sapmuebase::importRIMCatches().
+#' @return Data frame with records where the vessel's modality does not match
+#'   the expected RIM stratum, with error message added. Returns NULL if no
+#'   errors are found.
+#'
+#' @details
+#' The function performs the following steps:
+#' 1. Extracts unique trip records with vessel codes (COD_SGPM)
+#' 2. Merges with CFPO to obtain the fishing modality (CENSO_MODALIDAD)
+#' 3. Compares the CENSO_MODALIDAD and ESTRATO_RIM combination against the
+#'    FISHING_GROUND_CENSUS master data
+#' 4. Returns records where the combination is not found in the master
+#'
+#' @note Requires global objects: BASE_FIELDS, CFPO, FISHING_GROUND_CENSUS
 coherence_fishing_modality_rim_stratum <- function(catches){
-  
-  #' Use the FISHING_GROUND_CENSUS master to obtain the ESTRATO_RIM associated to each
-  #' ship through its CENSO_MODALIDAD
+  catches_clean <- catches[, c(BASE_FIELDS,"ARTE", "COD_SGPM")]
+  catches_clean <- unique(catches_clean)
 
-  master_cfpo_estrato_rim <- merge(
-    CFPO[, c("COD_SGPM", "CENSO_MODALIDAD")],
-    FISHING_GROUND_CENSUS,
-    by = "CENSO_MODALIDAD",
-    all.x = TRUE
-  )
-
-  master_cfpo_estrato_rim <- master_cfpo_estrato_rim[, c("COD_SGPM", "ESTRATO_RIM")]
-
-  # Improve and fix some problmes with master_cfpo_estrato_rim for the comparison
-
-  master_cfpo_estrato_rim <- master_cfpo_estrato_rim[!is.na(master_cfpo_estrato_rim$ESTRATO_RIM), ]
-
-  master_cfpo_estrato_rim$TEST <- "T"
-
-  # Prepare catches for the comparison
-
-  catches_for_comparison <- catches[, c(BASE_FIELDS, "COD_SGPM")]
-
-  # Merge both dataframes to detect those ships whose ESTRATO_RIM do not match
-  
-  err <- merge(catches_for_comparison,
-               master_cfpo_estrato_rim,
-               by = c("COD_SGPM", "ESTRATO_RIM"),
+  catches_cfpo <- merge(catches_clean,
+               CFPO[, c("COD_SGPM", "CENSO_MODALIDAD")],
+               by = "COD_SGPM",
                all.x = TRUE)
   
-  # Filter those rows where the the TEST column has NA values
-  
-  err <- err[is.na(err$TEST), ]
+  FISHING_GROUND_CENSUS$test <- "T"
 
-  err$TEST <- NULL
+  catches_cfpo_master <- merge(catches_cfpo,
+               FISHING_GROUND_CENSUS,
+               by = c("CENSO_MODALIDAD", "ESTRATO_RIM"),
+               all.x = TRUE)
   
-  # Add warning message to the results obtained
+  err <- catches_cfpo_master[is.na(catches_cfpo_master$test), ]
 
   if (nrow(err) > 0) {
     err <- add_type_of_error(
@@ -56,4 +47,3 @@ coherence_fishing_modality_rim_stratum <- function(catches){
   return(NULL)
 
 }
-

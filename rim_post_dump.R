@@ -81,7 +81,7 @@ suffix_multiple_months <- ""
 suffix <- ""
 
 # cfpo to use in the script
-cfpo_to_use <- "CFPO2024 DEF.xlsx"
+cfpo_to_use <- "CFPO_2025.xlsx"
 
 # PACKAGES ---------------------------------------------------------------------
 library(dplyr)
@@ -213,6 +213,8 @@ CFPO <- read.xlsx(
 )
 CFPO <- CFPO[, c("Código", "CFR", "Matrícula", "Estado.actual", "Censo.por.modalidad")]
 colnames(CFPO) <- c("COD_SGPM", "CFR", "MATRICULA", "ESTADO", "CENSO_MODALIDAD")
+# The CENSO_MODALIDAD variable has duplicated white spaces, so we remove them:
+CFPO$CENSO_MODALIDAD <- gsub("\\s+", " ", CFPO$CENSO_MODALIDAD)
 
 # Get the contacts data set.
 CONTACTS <- read.csv(file.path(PATH_PRIVATE_FILES, "contacts.csv"))
@@ -232,7 +234,7 @@ errors <- rim_check(muestreos_up)
 # errors <- rim_check_annual(muestreos_up)
 # errors <- rim_check_annual_nvdp_matched(muestreos_up)
 
-errors <- list("GS" = errors[["GS"]][errors[["GS"]]$PUERTO == "Muros", ])
+# errors <- list("GS" = errors[["GS"]][errors[["GS"]]$PUERTO == "Muros", ])
 
 # Check oab data dumped in rim:
 #   - sampled type 4, MT2B
@@ -240,6 +242,7 @@ errors <- list("GS" = errors[["GS"]][errors[["GS"]]$PUERTO == "Muros", ])
 
 # All the errors in a single data frame:
 # errors_complete <- Reduce( function(x, y) { merge(x, y, all=TRUE)}, errors)
+# exportCsvSAPMUEBASE(errors_complete, "errors_complete.csv", PATH_ERRORS)
 
 # EXPORT ERRORS ----------------------------------------------------------------
 # by influence area
@@ -249,7 +252,6 @@ export_errors_list(errors, ERRORS_FILENAME, separation = "_")
 #   errors_complete,
 #   file.path(PATH_ERRORS, paste0(ERRORS_FILENAME, ".xlsx"))
 # )
-
 
 # CHECK CODE_ID ----------------------------------------------------------------
 # This check is not for send to the sups, so it's out the ERRORS dataframe
@@ -299,3 +301,6 @@ send_errors_by_email(
   credentials_file = "credentials",
   identification_sampling = IDENTIFIER
 )
+
+
+
