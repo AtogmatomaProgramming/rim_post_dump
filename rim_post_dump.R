@@ -67,14 +67,14 @@ source(file.path(PRIVATE_FOLDER_NAME, "user_settings.R"))
 # FILENAME_TAL <- "IEOUPMUETALSIRENO.TXT"
 
 # MONTH: 1 to 12, or vector with month in numbers
-MONTH <- c(11)
+MONTH <- c(1:12)
 
 # YEAR
 YEAR <- 2025
 
 # Suffix to add to path. Use only in case MONTH is a vector of months. This
 # suffix will be added to the end of the path with a "_" as separation.
-suffix_multiple_months <- ""
+suffix_multiple_months <- "annual"
 
 # Suffix to add at the end of the export file name. This suffix will be added to
 # the end of the file name with a "_" as separation.
@@ -145,7 +145,6 @@ FILES_TO_BACKUP <- c(
   file.path(PATH_DATA_RAW, "especies_no_permitidas.csv"),
   file.path(PATH_DATA_RAW, "historical_species_sampled.csv"),
   file.path(PATH_DATA_RAW, "censo_modalidad_caladero.csv")
-
 )
 
 ERRORS_FILENAME <- paste0("errors", "_", IDENTIFIER)
