@@ -67,18 +67,18 @@ source(file.path(PRIVATE_FOLDER_NAME, "user_settings.R"))
 # FILENAME_TAL <- "IEOUPMUETALSIRENO.TXT"
 
 # MONTH: 1 to 12, or vector with month in numbers
-MONTH <- c(1:12)
+MONTH <- c(2)
 
 # YEAR
-YEAR <- 2025
+YEAR <- 2026
 
 # Suffix to add to path. Use only in case MONTH is a vector of months. This
 # suffix will be added to the end of the path with a "_" as separation.
-suffix_multiple_months <- "annual"
+suffix_multiple_months <- ""
 
 # Suffix to add at the end of the export file name. This suffix will be added to
 # the end of the file name with a "_" as separation.
-suffix <- ""
+suffix <- "TEST"
 
 # cfpo to use in the script
 cfpo_to_use <- "CFPO_2025.xlsx"
@@ -214,6 +214,20 @@ CFPO <- CFPO[, c("Código", "CFR", "Matrícula", "Estado.actual", "Censo.por.mod
 colnames(CFPO) <- c("COD_SGPM", "CFR", "MATRICULA", "ESTADO", "CENSO_MODALIDAD")
 # The CENSO_MODALIDAD variable has duplicated white spaces, so we remove them:
 CFPO$CENSO_MODALIDAD <- gsub("\\s+", " ", CFPO$CENSO_MODALIDAD)
+
+# Get the master of vessels from SIRENO
+
+FLEET_SIRENO <- read.csv(file.path(PATH_PRIVATE_FILES, FLEET_MASTER),
+  sep = ";", encoding = "latin1"
+)
+FLEET_SIRENO <- FLEET_SIRENO[, c("COD.BARCO", "ESTADO")]
+FLEET_SIRENO$COD.BARCO <- gsub("'", "", FLEET_SIRENO$COD.BARCO)
+colnames(FLEET_SIRENO) <- c("COD_BARCO", "ESTADO")
+FLEET_SIRENO <- FLEET_SIRENO[FLEET_SIRENO$ESTADO %in% c("ALTA DEFINITIVA", 
+                                                        "G - A.P. POR NUEVA CONSTRUCCION", 
+                                                        "H - A.P. POR REACTIVACION"), ]
+# FLEET_SIRENO <- unique(FLEET_SIRENO)
+
 
 # Get the contacts data set.
 CONTACTS <- read.csv(file.path(PATH_PRIVATE_FILES, "contacts.csv"))
