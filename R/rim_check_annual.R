@@ -113,6 +113,8 @@ rim_check_annual <- function(samples_imported) {
 
     err$coherence_fishing_modality_rim_stratum <- coherence_fishing_modality_rim_stratum(catches)
 
+    err$check_vessel_status <- check_vessel_status(catches)
+
     # This errors must be used only in anual, when the Fishing Ground and DCF
     # Metier is filled:
     # err$coherence_dcf_fishing_ground_rim_stratum_origin <- coherence_dcf_fishing_ground_rim_stratum_origin(catches)

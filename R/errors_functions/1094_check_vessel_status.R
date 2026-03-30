@@ -1,12 +1,12 @@
 
 #' Check if the sampled vessels are present in fleet SIRENO's master
 #' that contains the vessels that are registered in the project and if 
-#' it is active or not
+#' they are active or not
 #'
 #' @param catches Data frame with catches data from sapmuebase::importRIMCatches().
 #' @param fleet_sireno Data frame with fleet information from SIRENO master, 
 #' containing vessel codes (COD_BARCO) and their status.
-#' @return Data frame with records where the vessel code is not found in the fleet SIRENO master, 
+#' @return Data frame with records where the vessel code is not found in the fleet SIRENO's master 
 #' with error message added. 
 #'
 #' @details
@@ -18,11 +18,11 @@
 #'
 #' @note Requires global objects: BASE_FIELDS, FLEET_SIRENO
 
-check_vessel_status <- function(catches, fleet_sireno){
+check_vessel_status <- function(catches){
 
   sampled_vessels <- unique(catches[, c(BASE_FIELDS)])
   
-  err <- sampled_vessels[!(sampled_vessels$COD_BARCO %in% fleet_sireno$COD_BARCO), ]
+  err <- sampled_vessels[!(sampled_vessels$COD_BARCO %in% FLEET_SIRENO$COD_BARCO), ]
 
     if (nrow(err) > 0) {
     err <- add_type_of_error(
@@ -31,6 +31,7 @@ check_vessel_status <- function(catches, fleet_sireno){
     )
 
     return(err)
-  }
+      
+    }
 
 }
