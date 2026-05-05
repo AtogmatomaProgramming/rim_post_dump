@@ -67,7 +67,7 @@ source(file.path(PRIVATE_FOLDER_NAME, "user_settings.R"))
 # FILENAME_TAL <- "IEOUPMUETALSIRENO.TXT"
 
 # MONTH: 1 to 12, or vector with month in numbers
-MONTH <- c(2)
+MONTH <- c(3)
 
 # YEAR
 YEAR <- 2026
@@ -78,7 +78,7 @@ suffix_multiple_months <- ""
 
 # Suffix to add at the end of the export file name. This suffix will be added to
 # the end of the file name with a "_" as separation.
-suffix <- "TEST"
+suffix <- ""
 
 # cfpo to use in the script
 cfpo_to_use <- "CFPO_2025.xlsx"
@@ -132,7 +132,7 @@ PATH_BACKUP <- file.path(PATH_FILES, BACKUP_FOLDER_NAME)
 # path to data-raw folder
 PATH_DATA_RAW <- file.path(getwd(), DATA_RAW_FOLDER_NAME)
 # path to shared folder
-PATH_SHARED_ERRORS <- file.path(PATH_SHARE_FOLDER, YEAR, IDENTIFIER, ERRORS_FOLDER_NAME)
+PATH_SHARED_ERRORS <- file.path(PATH_SHARE_FOLDER, YEAR, IDENTIFIER)
 
 # path to SIRENO folder.
 PATH_SIRENO <- "C:/sireno"
